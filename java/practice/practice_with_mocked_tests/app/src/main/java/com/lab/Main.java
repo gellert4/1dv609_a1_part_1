@@ -1,21 +1,21 @@
 package com.lab;
-
+/**
+ * Example usage of SwedishSocialSecurityNumber and SSNHelper
+ */
 public class Main {
+    
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-
-        Password pw1 = null;
-        Password pw2 = null;
-
-
+        SSNHelper helper = new SSNHelper();
+        
         try {
-            pw1 = new Password("Password123!");
-            pw2 = new Password("Password123!");
+            SwedishSocialSecurityNumber ssn = new SwedishSocialSecurityNumber("900101-0017", helper);
+            System.out.println("Valid SSN created!");
+            System.out.println("Year: " + ssn.getYear());
+            System.out.println("Month: " + ssn.getMonth());
+            System.out.println("Day: " + ssn.getDay());
+            System.out.println("Serial: " + ssn.getSerialNumber());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         }
-
-        System.out.println(pw1.isPasswordSame(pw2));
     }
 }
