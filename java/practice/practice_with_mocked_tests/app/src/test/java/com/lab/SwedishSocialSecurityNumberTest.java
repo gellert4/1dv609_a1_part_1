@@ -26,13 +26,14 @@ public class SwedishSocialSecurityNumberTest {
         helperMock = mock(SSNHelper.class);
     }
     
-    private SwedishSocialSecurityNumber createSSN(String ssn) throws Exception {
-        return new SwedishSocialSecurityNumber(ssn, helperMock);
-        // return new BuggySwedishSocialSecurityNumberNoTrim(ssn, helperMock);
-        // return new BuggySwedishSocialSecurityNumberNoLenCheck(ssn, helperMock);
-        // return new BuggySwedishSocialSecurityNumberNoLuhn(ssn, helperMock);
-        // return new BuggySwedishSocialSecurityNumberWrongYear(ssn, helperMock);
-        // return new BuggySwedishSocialSecurityNumberNoFormatCheck(ssn, helperMock);
+    private ISwedishSSN createSSN(String ssn) throws Exception {
+        // Toggle one implementation at a time (no production code changes):
+        return new SwedishSSNAdapter(ssn, helperMock);
+        // return new BuggySwedishSSNNoTrimAdapter(ssn, helperMock);
+        // return new BuggySwedishSSNNoLenCheckAdapter(ssn, helperMock);
+        // return new BuggySwedishSSNNoLuhnAdapter(ssn, helperMock);
+        // return new BuggySwedishSSNWrongYearAdapter(ssn, helperMock);
+        // return new BuggySwedishSSNNoFormatCheckAdapter(ssn, helperMock);
     }
     
     // Test 1: Catches BuggySwedishSocialSecurityNumberNoTrim
@@ -45,7 +46,7 @@ public class SwedishSocialSecurityNumberTest {
         when(helperMock.isValidDay(anyString())).thenReturn(true);
         when(helperMock.luhnIsCorrect(anyString())).thenReturn(true);
         
-        SwedishSocialSecurityNumber ssn = createSSN("  900101-0017");
+        ISwedishSSN ssn = createSSN("  900101-0017");
         
         // Verify that trimmed version was passed to helper
         verify(helperMock).isCorrectLength("900101-0017");
@@ -88,7 +89,7 @@ public class SwedishSocialSecurityNumberTest {
         when(helperMock.isValidDay("01")).thenReturn(true);
         when(helperMock.luhnIsCorrect("900101-0017")).thenReturn(true);
         
-        SwedishSocialSecurityNumber ssn = createSSN("900101-0017");
+        ISwedishSSN ssn = createSSN("900101-0017");
         
         assertEquals("90", ssn.getYear()); // Should be substring(0,2) not (1,3)
     }
@@ -144,7 +145,7 @@ public class SwedishSocialSecurityNumberTest {
         when(helperMock.isValidDay("01")).thenReturn(true);
         when(helperMock.luhnIsCorrect("900101-0017")).thenReturn(true);
         
-        SwedishSocialSecurityNumber ssn = createSSN("900101-0017");
+        ISwedishSSN ssn = createSSN("900101-0017");
         assertNotNull(ssn);
     }
     
@@ -157,7 +158,7 @@ public class SwedishSocialSecurityNumberTest {
         when(helperMock.isValidDay("31")).thenReturn(true);
         when(helperMock.luhnIsCorrect("900531-0017")).thenReturn(true);
         
-        SwedishSocialSecurityNumber ssn = createSSN("900531-0017");
+        ISwedishSSN ssn = createSSN("900531-0017");
         assertEquals("05", ssn.getMonth());
     }
     
@@ -170,7 +171,7 @@ public class SwedishSocialSecurityNumberTest {
         when(helperMock.isValidDay("31")).thenReturn(true);
         when(helperMock.luhnIsCorrect("900531-0017")).thenReturn(true);
         
-        SwedishSocialSecurityNumber ssn = createSSN("900531-0017");
+        ISwedishSSN ssn = createSSN("900531-0017");
         assertEquals("31", ssn.getDay());
     }
     
@@ -183,7 +184,7 @@ public class SwedishSocialSecurityNumberTest {
         when(helperMock.isValidDay("31")).thenReturn(true);
         when(helperMock.luhnIsCorrect("900531-0017")).thenReturn(true);
         
-        SwedishSocialSecurityNumber ssn = createSSN("900531-0017");
+        ISwedishSSN ssn = createSSN("900531-0017");
         assertEquals("0017", ssn.getSerialNumber());
     }
 }
