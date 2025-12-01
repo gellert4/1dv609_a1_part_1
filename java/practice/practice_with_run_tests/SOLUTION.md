@@ -213,13 +213,3 @@ In JUnit 5:
 2. `TestAllVersions.ps1` - Automation script (optional)
 3. `SOLUTION.md` - This documentation
 
-## Next Steps
-
-1. **Practice switching implementations** manually in `PasswordTest.java`
-2. **Run coverage** and verify 100% for Password class
-3. **Move to Practice Task 2** (mocking with SwedishSocialSecurityNumber)
-4. **Prepare for oral exam**:
-   - Understand every line of code
-   - Practice writing tests without AI
-   - Review reflection questions above
-   - Practice running tests and reading coverage reports
