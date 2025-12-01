@@ -132,8 +132,8 @@ verify(helperMock).isCorrectLength("900101-0017");
 
 ### Run all tests:
 ```bash
-cd java/practice/practice_with_mocked_tests
-.\gradlew.bat test --no-daemon
+cd "c:\Users\Gellért Szalai\OneDrive\Asztali gép\softw_test\ass1\1dv609_a1_part_1\java\practice\practice_with_mocked_tests"
+.\gradlew.bat -p app clean test jacocoTestReport --console=plain
 ```
 
 ### Run with coverage report:

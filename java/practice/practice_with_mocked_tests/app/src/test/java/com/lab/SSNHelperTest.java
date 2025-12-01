@@ -19,98 +19,99 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class SSNHelperTest {
     
-    private SSNHelper getHelper() {
-        return new SSNHelper();
-        // return new BuggySSNHelperWrongLength();
-        // return new BuggySSNHelperAllowMonth0();
-        // return new BuggySSNHelperAllowDayUpTo30();
-        // return new BuggySSNHelperIncorrectFormat();
-        // return new BuggySSNHelperIncorrectFormatFalse();
-        // return new BuggySSNHelperMessyLuhn();
-        // return new BuggySSNHelperAllowMonth13();
+    private ISsnHelper getHelper() {
+        // Toggle one implementation at a time (no production code changes):
+        return new SSNHelperAdapter();
+        // return new BuggySSNHelperWrongLengthAdapter();
+        // return new BuggySSNHelperAllowMonth0Adapter();
+        // return new BuggySSNHelperAllowDayUpTo30Adapter();
+        // return new BuggySSNHelperIncorrectFormatAdapter();
+        // return new BuggySSNHelperIncorrectFormatFalseAdapter();
+        // return new BuggySSNHelperMessyLuhnAdapter();
+        // return new BuggySSNHelperAllowMonth13Adapter();
     }
     
     // Test 1: Catches BuggySSNHelperWrongLength
     @Test
     public void isCorrectLengthShouldReturnFalseForTwelveCharacters() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertFalse(helper.isCorrectLength("900101-00177"));
     }
     
     // Test 2: Catches BuggySSNHelperAllowMonth0
     @Test
     public void isValidMonthShouldReturnFalseForMonth00() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertFalse(helper.isValidMonth("00"));
     }
     
     // Test 3: Catches BuggySSNHelperAllowDayUpTo30
     @Test
     public void isValidDayShouldReturnTrueForDay31() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertTrue(helper.isValidDay("31"));
     }
     
     // Test 4: Catches BuggySSNHelperIncorrectFormat (always true)
     @Test
     public void isCorrectFormatShouldReturnFalseForInvalidFormat() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertFalse(helper.isCorrectFormat("90010100017")); // Missing hyphen
     }
     
     // Test 5: Catches BuggySSNHelperIncorrectFormatFalse (always false)
     @Test
     public void isCorrectFormatShouldReturnTrueForValidFormat() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertTrue(helper.isCorrectFormat("900101-0017"));
     }
     
     // Test 6: Catches BuggySSNHelperMessyLuhn
     @Test
     public void luhnIsCorrectShouldReturnTrueForValidSSN() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertTrue(helper.luhnIsCorrect("900101-0017")); // Valid Luhn
     }
     
     // Coverage test 1: Valid length
     @Test
     public void isCorrectLengthShouldReturnTrueForElevenCharacters() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertTrue(helper.isCorrectLength("900101-0017"));
     }
     
     // Coverage test 2: Month boundary - valid month
     @Test
     public void isValidMonthShouldReturnTrueForMonth12() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertTrue(helper.isValidMonth("12"));
     }
     
     // Coverage test 3: Month boundary - invalid month
     @Test
     public void isValidMonthShouldReturnFalseForMonth13() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertFalse(helper.isValidMonth("13"));
     }
     
     // Coverage test 4: Day boundary - valid day
     @Test
     public void isValidDayShouldReturnTrueForDay01() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertTrue(helper.isValidDay("01"));
     }
     
     // Coverage test 5: Day boundary - invalid day
     @Test
     public void isValidDayShouldReturnFalseForDay32() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertFalse(helper.isValidDay("32"));
     }
     
     // Coverage test 6: Invalid Luhn
     @Test
     public void luhnIsCorrectShouldReturnFalseForInvalidLuhn() {
-        SSNHelper helper = getHelper();
+        ISsnHelper helper = getHelper();
         assertFalse(helper.luhnIsCorrect("900101-0018")); // Invalid Luhn checksum
     }
 }

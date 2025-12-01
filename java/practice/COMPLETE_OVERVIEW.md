@@ -33,8 +33,8 @@ Coverage: High (visible in JaCoCo report)
 
 ### Quick Run
 ```bash
-cd java/practice/practice_with_run_tests
-.\gradlew.bat test --no-daemon
+cd "c:\Users\Gellért Szalai\OneDrive\Asztali gép\softw_test\ass1\1dv609_a1_part_1\java\practice\practice_with_run_tests"
+.\gradlew.bat -p app clean test jacocoTestReport --console=plain
 ```
 
 ---
