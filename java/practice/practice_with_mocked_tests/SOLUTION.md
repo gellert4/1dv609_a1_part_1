@@ -67,7 +67,33 @@ public void setup() {
 
 ## Bug-Test Coverage Matrix
 
-### SSNHelper Bugs
+### Combined Bug-Test Matrix
+
+| SUT | Test | Correct | WrongLength | Month0 | DayUpTo30 | FormatTrue | FormatFalse | MessyLuhn | Month13 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SSNHelper | lengthFalseFor12Chars | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| SSNHelper | monthFalseFor00 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| SSNHelper | dayTrueFor31 | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| SSNHelper | formatFalseInvalid | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
+| SSNHelper | formatTrueValid | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| SSNHelper | luhnTrueValid | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| SSNHelper | monthFalseFor13 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| SSNHelper | (Coverage tests) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Coverage** | | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** |
+
+| SUT | Test | Correct | NoTrim | NoLenCheck | NoLuhn | WrongYear | NoFormatCheck |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SwedishSSN | acceptLeadingWhitespace | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| SwedishSSN | throwIncorrectLength | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
+| SwedishSSN | throwInvalidLuhn | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| SwedishSSN | getYearCorrect | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| SwedishSSN | throwInvalidFormat | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| SwedishSSN | (Coverage tests) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Coverage** | | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** |
+
+### Detailed Bug Breakdown
+
+#### SSNHelper Bugs
 
 | Bug Class | Bug Description | Line | Test That Catches It | Status |
 |-----------|----------------|------|---------------------|--------|
@@ -77,8 +103,9 @@ public void setup() {
 | BuggySSNHelperIncorrectFormat | Returns `true` always | 10 | isCorrectFormatShouldReturnFalseForInvalidFormat | ✓ CAUGHT |
 | BuggySSNHelperIncorrectFormatFalse | Returns `false` always | 10 | isCorrectFormatShouldReturnTrueForValidFormat | ✓ CAUGHT |
 | BuggySSNHelperMessyLuhn | Uses `digit -= 11` instead of `digit -= 9` | 33 | luhnIsCorrectShouldReturnTrueForValidSSN | ✓ CAUGHT |
+| BuggySSNHelperAllowMonth13 | Allows month 13 (custom bug) | 16 | isValidMonthShouldReturnFalseForMonth13 | ✓ CAUGHT |
 
-### SwedishSocialSecurityNumber Bugs
+#### SwedishSocialSecurityNumber Bugs
 
 | Bug Class | Bug Description | Line | Test That Catches It | Status |
 |-----------|----------------|------|---------------------|--------|
@@ -86,10 +113,11 @@ public void setup() {
 | BuggySwedishSocialSecurityNumberNoLenCheck | Missing length validation | - | constructorShouldThrowExceptionForIncorrectLength | ✓ CAUGHT |
 | BuggySwedishSocialSecurityNumberNoLuhn | Missing Luhn validation | - | constructorShouldThrowExceptionForInvalidLuhnChecksum | ✓ CAUGHT |
 | BuggySwedishSocialSecurityNumberWrongYear | Uses `substring(1,3)` instead of `(0,2)` | 30 | getYearShouldReturnCorrectYearForValidSSN | ✓ CAUGHT |
+| BuggySwedishSocialSecurityNumberNoFormatCheck | Missing format validation (custom bug) | - | constructorShouldThrowExceptionForInvalidFormat | ✓ CAUGHT |
 
 ### Summary
-- **Total Buggy Implementations**: 10
-- **Bugs Caught**: 10
+- **Total Buggy Implementations**: 12 (7 SSNHelper + 5 SwedishSocialSecurityNumber)
+- **Bugs Caught**: 12
 - **Bugs Escaped**: 0
 - **Success Rate**: 100%
 
@@ -173,7 +201,7 @@ Total: 23/23 tests passed
 ### Coverage Report
 The JaCoCo coverage report shows:
 - **Line Coverage**: High coverage across both classes
-- **Branch Coverage**: All conditional branches tested
+- **Branch Coverage**: Most conditional branches tested (94%)
 - **Method Coverage**: All public methods tested
 
 ## Reflection
